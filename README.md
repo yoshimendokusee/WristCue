@@ -1,21 +1,42 @@
 # WristCue: offline medical triage → hospital pre-arrival
 
-A rescuer taps a Wear OS watch and describes the patient(s) out loud. The watch
-transcribes **on-device** (Vosk), extracts a structured medical triage report with a
-deterministic Taglish keyword pipeline, queues it in SQLite, and, once it reaches an
-internet-free Wi-Fi router, sends it to a Dockerized hospital hub. The ED sees a
-live pre-arrival board: how many casualties are coming, how bad, what they need, and
-when they arrive. This describes the implemented prototype, not hardware-verified
-operation or clinical validation. No speech model is bundled in this checkout.
+WristCue is our AppBuildersPH entry: an offline-first medical reporting system for
+Apple Watch, iPhone and the hospital's WristCue computer. A rescuer speaks into
+the Watch; local AI transcribes the recording and extracts a structured report,
+which is saved to SQLite before any delivery attempt. The intended delivery route
+is a **Bluetooth Low Energy (BLE) chain with end-to-end (E2E) encryption**. The
+hospital web app presents incoming reports so its team can prepare for arrivals.
 
-The repository now includes local Qwen3-0.6B GGUF weights through Git LFS,
-Ollama inference in the existing hospital hub, and native SwiftUI iOS/watchOS app
-targets with CPU llama.cpp and durable local processing. Both Apple simulators have
-generated real tokens; physical-device feasibility, offline Watch speech and
-paired-device transfer remain unverified. See [Qwen integration](docs/QWEN_INTEGRATION.md)
-and [performed results](docs/QWEN_RESULTS.md). The existing Flutter/Wear OS app,
-SQLite/hospital flows and optional Supabase path remain in place. BLE, Realtime
-and the proposed React replacement are still target work.
+## Intended offline flow
+
+```text
+Apple Watch voice capture → local AI transcription + report → local SQLite
+    → E2E-encrypted report → BLE chain of nearby relay devices
+    → hospital's WristCue computer → hospital web app
+```
+
+- **Local processing:** transcription and report creation require no internet or
+  cloud AI service after the models are provisioned. Deterministic rules govern
+  provisional triage; local AI extracts stated facts and preserves uncertainty.
+- **BLE chain:** nearby participating devices store and forward reports as contact
+  becomes available. A report stays pending when no onward hop is available;
+  continuous connectivity and immediate delivery are not guaranteed.
+- **E2E encryption:** the target encrypts report contents at the originating client
+  for the intended hospital. Intermediate relays forward ciphertext without reading
+  the clinical report. Bluetooth link security alone is not E2E encryption.
+- **Hospital receipt:** only a trusted hospital acknowledgment should mark a report
+  delivered. A relay accepting a packet does not establish hospital delivery.
+
+**Implementation status:** local persistence, native SwiftUI Apple app targets,
+Watch Whisper speech integration, Qwen extraction and the hospital dashboard exist
+in this prototype. **The BLE chain, E2E encryption/key management and trusted
+delivery acknowledgment protocol are not implemented yet.** The existing HTTP
+prototype API is documented separately in [the API contract](docs/api-contract.md);
+it does not provide the intended BLE/E2E route. Physical Watch speech accuracy,
+memory, latency and paired-device transfer remain unverified, and the prototype is
+not clinically validated. See [architecture](docs/architecture.md),
+[Qwen integration](docs/QWEN_INTEGRATION.md) and
+[performed results](docs/QWEN_RESULTS.md) for implementation evidence.
 
 ```
 WristCue/
@@ -46,13 +67,13 @@ on each developer's machine and are not part of the source tree shown here.
 | Document | Responsibility |
 | --- | --- |
 | [Architecture](docs/architecture.md) | Source of truth: approved target versus actual code |
-| [API contract](docs/api-contract.md) | Implemented LAN requests, responses and retry behavior |
+| [API contract](docs/api-contract.md) | Existing prototype requests, responses and retry behavior |
 | [Conventions](docs/conventions.md) / [AGENTS.md](AGENTS.md) | Contributor and agent guardrails |
 | [Reverse-engineering report](docs/reverse-engineering.md) | Dated verification, evidence, gaps and next steps |
 | [Migration layout](database/migrations/README.md) | Schema owners and safe upgrade requirements |
 | [Developer Guide](docs/DEVELOPER_GUIDE.md) | Detailed prototype feature reference; historical claims are labeled |
 
-## WristCue quickstart
+## Prototype development quickstart
 
 Follow these steps in order. Docker runs the hub, website, and local AI. Building
 the native Apple apps needs a Mac with Xcode, Node.js 22+, CMake, and an iPhone /
@@ -78,12 +99,11 @@ signing team. Native apps cannot be built inside Docker.
    ```
 
    In Xcode, select your Apple signing team, choose the `VanguardWatch` scheme and
-   your Watch (or simulator), then click **Run**. Open **Hospital connection** on
-   the Watch. The detailed steps below connect it to this Docker hub.
-4. **Enroll the Watch.** Paste the operator token into the website, create an
-   enrollment QR, then enter its one-time code on the Watch. The server creates and
-   stores a device credential automatically.
-5. **Send a synthetic report** from WristCue and confirm it appears on the website.
+   your Watch (or simulator), then click **Run**. See
+   [Qwen integration](docs/QWEN_INTEGRATION.md) for model and build requirements.
+4. **Try local capture with synthetic data.** Confirm the report is saved locally.
+   To populate the development website, use the synthetic board fixture below.
+   These checks do not demonstrate BLE chain delivery or E2E encryption.
 
 ## What one spoken sentence produces
 
@@ -125,7 +145,7 @@ patients in one category: a mixed group ("one critical, two minor") should be sp
 separate reports. Pickup locations are the four barangays in the `locations` map; edit it
 for your area.
 
-## Watch behaviour
+## Legacy Flutter watch behaviour
 
 - Single tap = start/stop dictation (big high-contrast button, glove-friendly).
 - Live transcript scrolls as you speak. Stopping parses, saves to `triage_logs`
@@ -181,9 +201,9 @@ run `docker compose up -d` after the first setup.
 
 Docker runs the hospital hub, browser dashboard and local AI service. It does not
 build or install native iPhone/Apple Watch apps; those require Xcode and an Apple
-device or simulator. The native apps save reports locally and send them to this
-Docker hub over the same Wi-Fi network. The detailed native build/model requirements
-are in [Qwen integration](docs/QWEN_INTEGRATION.md) and the [Apple setup record](docs/shared-hub-setup.md).
+device or simulator. The native apps save reports locally; starting Docker does
+not enable the intended BLE chain or E2E encryption. The detailed native build/model
+requirements are in [Qwen integration](docs/QWEN_INTEGRATION.md).
 
 Edit `hub/public/index.html`, `dashboard.css`, `dashboard.js` and frontend assets
 with your editor. Root Compose adds a Vite frontend on **localhost:3301** to the
@@ -237,71 +257,6 @@ Common fixes:
   `AI Live` requires real completed tokens, not just a model tag. The board/intake
   remain usable without AI.
 
-### Connect the Apple Watch to the web board
-
-For localhost-only dashboard use, the default `.env` works as-is. A physical Watch
-needs the hub computer's Wi-Fi address and a server-side operator credential. Create
-one in `.env` like this (replace the example token with the output of the command):
-
-   ```sh
-   openssl rand -hex 32
-   ```
-
-   ```dotenv
-   HUB_BIND_ADDRESS=192.168.1.25
-   HUB_USERS='[{"id":"hospital-operator","role":"operator","token":"<paste-random-token-here>"}]'
-   ```
-
-Use the Mac's current Wi-Fi IP for `HUB_BIND_ADDRESS`. Keep `.env` private; the
-operator token is a server credential. Recreate the hub to load these settings:
-
-```sh
-docker compose up -d --no-deps --force-recreate hub
-```
-
-Then connect the Watch:
-
-1. On the hub computer, open [http://localhost:3301/](http://localhost:3301/).
-   In **Settings → Hospital access token**, paste the operator token from `.env`
-   and select **Connect**.
-2. In Settings, choose **Create enrollment QR**. The page shows the QR and its
-   matching 16-character one-time code. Use a phone camera/QR reader to read the
-   code, or copy it from the page. The code expires after 10 minutes and can enroll
-   one device once. A hub restart invalidates unused codes.
-3. On the Watch, open **Hospital connection**. Set **Hospital LAN URL** to
-   `http://<hub-computer-wifi-ip>:3000`, enter the one-time code, and tap
-   **Enroll Watch**. Then tap **Save and retry**. The Watch receives a permanent
-   device token, saves it in Keychain, and uses it for future reports. Do not enter
-   the operator token on the Watch.
-4. Send a synthetic report from WristCue and confirm it appears at
-   `http://localhost:3301/`. Use synthetic data only.
-
-The board is at `http://localhost:3301/` for Docker development; the production
-entry point serves the board at `http://localhost:3000/`. On another device, use
-the hub computer's LAN address and port 3000. The development dashboard at 3301
-is intentionally bound to localhost, so it is not a LAN-facing web app.
-
-LAN binding requires configured `HUB_USERS`; the default remains loopback-only.
-The native apps cannot use their own `localhost` as the hub address. There is no
-reliable Docker multicast discovery; use a DHCP reservation or update the saved
-address after network changes. Legacy Flutter separately uses explicit `HUB_URL`
-and `HUB_TOKEN` build settings. LAN credentials do not encrypt HTTP or storage:
-use synthetic data on an isolated network. See [global connectivity setup and
-verification](docs/global-ai-connectivity.md).
-
-To build the hub address into the Apple apps instead of typing it on each device,
-copy `watch/apple/Config/Secrets.xcconfig.example` to `Secrets.xcconfig` (git-ignored)
-and set `HUB_URL = http:/$()/<computer-lan-ip>:3000`. The `$()` is needed because
-`//` starts an xcconfig comment. The project's base configuration is
-`Config/Vanguard.xcconfig`, and `Config/Info.plist` passes the value to
-`AppConfiguration.load()`. A saved in-app URL still takes precedence. Optional
-`SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` stay empty when the hub uploads to Supabase.
-Info.plist is readable from the installed app, so it holds public values only:
-never the hub password, `sb_secret_*` or service-role keys. Values are fixed at build
-time; rebuild after changing them. See [Apple hub URL verification](docs/apple-hub-url-verification.md)
-for the earlier unsigned simulator checks. [Shared hub setup](docs/shared-hub-setup.md)
-records the current Wi-Fi hostname, per-device enrollment and signed simulator checks.
-
 Optional native hub development (Node 22.12+):
 
 ```sh
@@ -313,7 +268,7 @@ npm start
 # npm run build creates optimized dist assets for Express.
 ```
 
-Board: `http://<laptop-lan-ip>:3000` (the hub prints its LAN IPs on start).
+Development board: `http://localhost:3000` on the computer running the hub.
 Requires Node 22+ (`better-sqlite3` 13); locally checked with Node 24.20.0,
 Docker uses Node 22. Docker installs the committed lockfile with `npm ci`.
 The API and dashboard run in one container; there is no React build/service.
@@ -329,7 +284,7 @@ Do not use `fake-watch.sh` against a database containing real reports.
 reports from four rescue teams (42 patients, one report with no stated count),
 spread from arriving now to later than an hour, plus four arrivals, two
 cancellations, a clinical override and a corrected transcript. It posts the same
-LAN batches a watch posts and then uses the same dashboard endpoints an operator
+prototype batches a watch posts and then uses the same dashboard endpoints an operator
 uses, so the hub's validation, duplicate protection, provisional assessment and
 clinical history all behave as they do in a live demo. It never edits the
 database file directly. Synthetic patients only: never point it at a hub holding
@@ -347,22 +302,18 @@ node seed.js --force                       # load another wave on purpose
 The scenario is plain data at the top of `hub/seed.js`: edit the places, findings,
 counts and arrival times to match your own barangays.
 
-Configuration: `.env.example` documents `HOSPITAL_NAME`, `HUB_PORT` and
-`HUB_BIND_ADDRESS` for Compose; native Node uses `PORT`, `DB_PATH` and
-`HOSPITAL_NAME` and does not auto-load `.env`. Inside Docker, port 3000 and
-`/data/vanguard.db` remain fixed. `HUB_URL`, `VOSK_MODEL`, `SUPABASE_URL` and
-`SUPABASE_ANON_KEY` are watch compile-time defines; `.env` does not automatically
-configure Flutter.
 Configuration: `.env.example` documents Compose host binding, hospital label and
-watch build settings. Inside Docker the API uses port 3000 and `/data/vanguard.db`.
+watch build settings; native Node uses `PORT`, `DB_PATH` and `HOSPITAL_NAME` and
+does not auto-load `.env`. Inside Docker the API uses port 3000 and `/data/vanguard.db`.
 Watch build-time settings are independent; root `.env` does not configure Flutter
 or Apple devices automatically. Do not run `fake-watch.sh` against existing reports.
 
 ### Supabase cloud backup (hub)
 
-The hub is the only component that needs Supabase settings. Watch, iPhone and
-dashboard clients talk to the hub over the LAN. The hub uploads to Supabase
-whenever it has internet. `.env` is git-ignored, but the hub reads it from disk on
+For hub-owned backup, the hub is the only component that needs Supabase settings.
+This optional internet-based backup is separate from the intended offline BLE
+chain and is not required for local capture or report creation. The hub uploads
+to Supabase whenever it has internet. `.env` is git-ignored, but the hub reads it from disk on
 the hospital computer, so it connects without the file being in Git.
 
 1. In Supabase: apply `supabase/migrations/` (see its README), then go to
@@ -378,8 +329,9 @@ the hospital computer, so it connects without the file being in Git.
    **Sync to cloud** button.
 
 Reports always save to hub SQLite first. Offline, they stay queued and upload
-automatically once online. Leaving any value empty keeps the hub LAN-only. Use
-synthetic data only: the LAN API and SQLite are unauthenticated and unencrypted.
+automatically once online. Leaving any value empty disables cloud backup. Use
+synthetic data only: the current HTTP transport and SQLite storage are unencrypted
+and do not provide the target E2E protection.
 
 ## Local Qwen inference
 
@@ -415,14 +367,16 @@ with a bounded Ollama queue; capacity and inference latency depend on the host.
 
 Qwen does not recognize speech or independently assign urgency. Machine claims
 remain unverified; unknown data never means normal. Apple typed capture uses native
-inference; iPhone speech uses the existing on-device transcriber. Watch audio is
-saved and queued for iPhone processing because offline Watch STT is unimplemented.
+inference; iPhone speech uses the existing on-device transcriber. The native Watch
+uses bundled Whisper tiny multilingual speech recognition before Qwen extraction,
+with saved audio and paired iPhone fallback when processing fails. Physical Watch
+accuracy, memory, latency and paired transfer remain unverified.
 
 Read [complete setup, scripts, measurements and blockers](docs/QWEN_INTEGRATION.md)
 and [the AI API contract](docs/ai-contract.md). Keep synthetic development on isolated
-networks: existing LAN/storage protections remain prototype limitations.
+networks: current transport/storage protections remain prototype limitations.
 
-## Watch app
+## Legacy Flutter watch app
 
 ```bash
 cd watch
@@ -430,7 +384,6 @@ flutter pub get
 flutter analyze
 flutter test                     # parser, database migration and cloud payload tests
 flutter run \
-  --dart-define=HUB_URL=http://192.168.8.10:3000 \
   --dart-define=SUPABASE_URL=https://<project-ref>.supabase.co \
   --dart-define=SUPABASE_ANON_KEY=<publishable-or-anon-key>
 ```
@@ -449,10 +402,6 @@ The app requires Dart >= 3.13.2 and < 4; CI pins the locally checked Flutter 3.4
 asset **before** running the app; missing assets cause `MODEL ERROR` and disable
 normal recording and the header demo flow. Android SDK is absent on the audited Mac.
 
-Give the hub laptop a DHCP reservation on the router so `HUB_URL` never changes. Android
-config already includes mic/internet/vibrate permissions, cleartext HTTP (the LAN has no
-TLS), the Wear OS watch flag, and `minSdk 26`.
-
 ### Speech models
 
 `watch/assets/models/` contains only `.gitkeep`. Download the chosen model ZIP
@@ -465,15 +414,24 @@ To choose the latter, place the ZIP in that folder and pass
 Language accuracy, model loading, memory and battery use remain unverified on the
 watch. A companion phone is a target fallback requiring implementation/testing.
 
-## Demo script
+## Intended BLE chain demo
 
-1. **Offline:** disable Wi-Fi/data on the laptop and the watch (start the hub first).
-2. **Edge compute:** tap, say the sentence above, tap again. 3 long buzzes; the watch shows
-   `IMMEDIATE ×2 · Child · Drowning, Unconscious · ETA 10 min`.
-3. **Reconnect:** power the router; join the watch and laptop to it.
-4. **Handoff:** foreground retry sends automatically (or tap **RETRY NOW**). The red card appears on the ED board, "Prepare for"
-   updates, and the 10-minute countdown starts.
-5. **Resilience:** tap send again: no duplicate.
+This is the target demonstration, not a runnable feature of the current prototype.
+
+1. **Capture offline:** speak a synthetic report into the Apple Watch. Local AI
+   transcribes it, extracts the report and saves it to SQLite.
+2. **Protect the report:** encrypt its contents end to end for the intended hospital
+   before forwarding it to a relay.
+3. **Relay via BLE:** nearby authenticated participants store and forward the
+   ciphertext through the BLE chain. Interrupted transfers retain pending data.
+4. **Receive at the hospital:** the hospital's WristCue computer decrypts and saves
+   the report, then displays it in the web app.
+5. **Confirm delivery:** a trusted hospital acknowledgment returns through the
+   relay path. Retries must not duplicate reports; relay receipt alone must not
+   mark them delivered.
+
+Until the relay and encryption protocols are implemented and verified on target
+devices, demonstrate local capture and the synthetic hospital board separately.
 
 ## Known limits
 
@@ -481,11 +439,13 @@ watch. A companion phone is a target fallback requiring implementation/testing.
   [reverse-engineering report](docs/reverse-engineering.md). Historical browser/mock
   claims in the old guide do not establish native watch behavior.
 - The hub now supports explicit patient identity revisions; transcripts can also contain names
-  or other identifying information. HTTP has no auth/TLS and SQLite is unencrypted.
+  or other identifying information. Current HTTP transport has no TLS and SQLite is unencrypted.
   Use synthetic development data; access controls and protected storage/transport
   are required before real patient use.
 - Watch sync batches at 100 rows, with bounded bodies and foreground retry/backoff.
-  Background LAN delivery and BLE remain unimplemented; transcripts up to 16,000 characters use bounded byte-aware batches.
+  The BLE chain, E2E encryption/key management and trusted hospital acknowledgment
+  protocol remain unimplemented; background delivery requires target-device testing.
+  Transcripts up to 16,000 characters use bounded byte-aware prototype batches.
 - A four-hex-digit watch ID can collide across devices; timestamps now advance from
   the persisted maximum inside the SQLite transaction after restart/clock rollback. Returned ACK IDs are scoped to sent rows but remain unauthenticated.
 - Watch v2 and hub baseline migrations upgrade SQLite in place; Supabase migration application is separate.
@@ -517,7 +477,7 @@ normal root and legacy Compose data paths remain unchanged.
 Hub SQLite v2 persists original evidence, structured findings/provenance,
 patient/encounter revisions, provisional assessment history, corrections and
 operator overrides. The existing dashboard exposes Evidence and corrections;
-automatic LAN submission still follows local save without a manual gate.
+automatic prototype submission still follows local save without a manual gate.
 Read [the API contract](docs/api-contract.md) and
 [backend completion report](docs/backend-completion.md) for the schema, audited
 execution paths, performed checks and limitations. That earlier backend phase introduced no native Apple app/model runtime; the later Qwen integration adds those paths as documented above. Use synthetic isolated development only.
