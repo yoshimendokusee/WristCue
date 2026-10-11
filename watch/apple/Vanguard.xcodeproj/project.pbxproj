@@ -3,16 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		14EFAEADB20AB92F5C06A5A0 /* VanguardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3BDD155A68B6776525F0AF /* VanguardApp.swift */; };
 		1788FC58174D2686FEB3BCBE /* qwen3-0.6b in Resources */ = {isa = PBXBuildFile; fileRef = ADB688B2E5B6703E2F0C76F3 /* qwen3-0.6b */; };
-		A19E6D7B14E54B378DCD9701 /* whisper-tiny-q5_1 in Resources */ = {isa = PBXBuildFile; fileRef = B88E8BA940624F96AFA67C67 /* whisper-tiny-q5_1 */; };
 		3A691FB40A085D777E89D4BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8DAF42A99026818F257681 /* Foundation.framework */; };
 		407274C91B1E234F51AD0B51 /* VanguardWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AEB3DF43CF73C18E2C397CA4 /* VanguardWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		602DD91DF2251838313B41E5 /* qwen3-0.6b in Resources */ = {isa = PBXBuildFile; fileRef = ADB688B2E5B6703E2F0C76F3 /* qwen3-0.6b */; };
+		A19E6D7B14E54B378DCD9701 /* whisper-tiny-q5_1 in Resources */ = {isa = PBXBuildFile; fileRef = B88E8BA940624F96AFA67C67 /* whisper-tiny-q5_1 */; };
 		CE2194D1F4F588E38A22DC05 /* VanguardApple in Frameworks */ = {isa = PBXBuildFile; productRef = 2A028AE3C13BF7A66388FF4E /* VanguardApple */; };
 		DCC555AEEB82DB1363840AE7 /* VanguardApple in Frameworks */ = {isa = PBXBuildFile; productRef = EC7740301287D30088951C37 /* VanguardApple */; };
 		ECBCD2FE8BC1DAFFFC9B9303 /* VanguardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3BDD155A68B6776525F0AF /* VanguardApp.swift */; };
@@ -44,14 +44,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C1A9E3F0B7D4E2A8F6C1D03 /* Vanguard.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Vanguard.xcconfig; path = Config/Vanguard.xcconfig; sourceTree = "<group>"; };
 		77223DEB82BF9CB71D290053 /* VanguardPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VanguardPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7943DA2C5396872A123A8144 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		7C8DAF42A99026818F257681 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		ADB688B2E5B6703E2F0C76F3 /* qwen3-0.6b */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "qwen3-0.6b"; path = "../../models/qwen3-0.6b"; sourceTree = "<group>"; };
-		B88E8BA940624F96AFA67C67 /* whisper-tiny-q5_1 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "whisper-tiny-q5_1"; path = "../../models/whisper-tiny-q5_1"; sourceTree = "<group>"; };
 		AEB3DF43CF73C18E2C397CA4 /* VanguardWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VanguardWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B88E8BA940624F96AFA67C67 /* whisper-tiny-q5_1 */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "whisper-tiny-q5_1"; path = "../../models/whisper-tiny-q5_1"; sourceTree = "<group>"; };
 		FE3BDD155A68B6776525F0AF /* VanguardApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VanguardApp.swift; sourceTree = "<group>"; };
-		5C1A9E3F0B7D4E2A8F6C1D03 /* Vanguard.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Vanguard.xcconfig; path = Config/Vanguard.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +111,6 @@
 			children = (
 				FE3BDD155A68B6776525F0AF /* VanguardApp.swift */,
 			);
-			name = App;
 			path = App;
 			sourceTree = "<group>";
 		};
@@ -197,11 +196,9 @@
 				Base,
 			);
 			mainGroup = 5A2096DB2668631AFA9AF183;
-			minimizedProjectReferenceProxies = 0;
 			packageReferences = (
 				B92A19759606417629C6846D /* XCLocalSwiftPackageReference "." */,
 			);
-			preferredProjectObjectVersion = 100;
 			productRefGroup = 2CB3D7C681F1C3768224DFC9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,22 +230,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ABCD01234567890123456789 /* Verify pinned Qwen */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = ();
-			name = "Verify pinned Qwen";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -eu\ncd \"$SRCROOT/../../models/qwen3-0.6b\"\n/usr/bin/shasum -a 256 --check checksums.sha256\n";
-		};
 		ABCD01234567890123456788 /* Verify pinned Qwen */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
-			files = ();
+			files = (
+			);
+			inputPaths = (
+			);
 			name = "Verify pinned Qwen";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -eu\ncd \"$SRCROOT/../../models/qwen3-0.6b\"\n/usr/bin/shasum -a 256 --check checksums.sha256\n";
+		};
+		ABCD01234567890123456789 /* Verify pinned Qwen */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify pinned Qwen";
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -eu\ncd \"$SRCROOT/../../models/qwen3-0.6b\"\n/usr/bin/shasum -a 256 --check checksums.sha256\n";
@@ -257,8 +264,13 @@
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
-			files = ();
+			files = (
+			);
+			inputPaths = (
+			);
 			name = "Verify pinned Whisper";
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -eu\ncd \"$SRCROOT/../../models/whisper-tiny-q5_1\"\n/usr/bin/shasum -a 256 --check checksums.sha256\n";
@@ -297,27 +309,30 @@
 		1F0A253133BBAEB85B3D6C68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
+				"ARCHS[sdk=watchos*]" = arm64_32;
+				"ARCHS[sdk=watchsimulator*]" = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Config/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "WristCue";
+				INFOPLIST_KEY_CFBundleDisplayName = WristCue;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Relay locally stored reports to the hospital LAN hub.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record an offline patient report.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Transcribe patient audio on this iPhone without network recognition.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ph.vanguard.ios;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
-				"ARCHS[sdk=iphonesimulator*]" = arm64;
-				"ARCHS[sdk=watchsimulator*]" = arm64;
-				"ARCHS[sdk=iphoneos*]" = arm64;
-				"ARCHS[sdk=watchos*]" = arm64_32;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -325,6 +340,10 @@
 		46DF9AB588AE20AB0536DADE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
+				"ARCHS[sdk=watchos*]" = arm64_32;
+				"ARCHS[sdk=watchsimulator*]" = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -341,10 +360,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
-				"ARCHS[sdk=iphonesimulator*]" = arm64;
-				"ARCHS[sdk=watchsimulator*]" = arm64;
-				"ARCHS[sdk=iphoneos*]" = arm64;
-				"ARCHS[sdk=watchos*]" = arm64_32;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
@@ -353,6 +368,10 @@
 		D0BE204A00BA3E6F5A3EF2AC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
+				"ARCHS[sdk=watchos*]" = arm64_32;
+				"ARCHS[sdk=watchsimulator*]" = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -369,10 +388,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
-				"ARCHS[sdk=iphonesimulator*]" = arm64;
-				"ARCHS[sdk=watchsimulator*]" = arm64;
-				"ARCHS[sdk=iphoneos*]" = arm64;
-				"ARCHS[sdk=watchos*]" = arm64_32;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
@@ -382,27 +397,30 @@
 		D28D67C395913B29352C2471 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
+				"ARCHS[sdk=watchos*]" = arm64_32;
+				"ARCHS[sdk=watchsimulator*]" = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Config/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "WristCue";
+				INFOPLIST_KEY_CFBundleDisplayName = WristCue;
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Relay locally stored reports to the hospital LAN hub.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Record an offline patient report.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Transcribe patient audio on this iPhone without network recognition.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ph.vanguard.ios;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
-				"ARCHS[sdk=iphonesimulator*]" = arm64;
-				"ARCHS[sdk=watchsimulator*]" = arm64;
-				"ARCHS[sdk=iphoneos*]" = arm64;
-				"ARCHS[sdk=watchos*]" = arm64_32;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -413,6 +431,10 @@
 			baseConfigurationReference = 5C1A9E3F0B7D4E2A8F6C1D03 /* Vanguard.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
+				"ARCHS[sdk=watchos*]" = arm64_32;
+				"ARCHS[sdk=watchsimulator*]" = arm64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -467,10 +489,6 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				"ARCHS[sdk=iphonesimulator*]" = arm64;
-				"ARCHS[sdk=watchsimulator*]" = arm64;
-				"ARCHS[sdk=iphoneos*]" = arm64;
-				"ARCHS[sdk=watchos*]" = arm64_32;
 			};
 			name = Debug;
 		};
@@ -479,6 +497,10 @@
 			baseConfigurationReference = 5C1A9E3F0B7D4E2A8F6C1D03 /* Vanguard.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphoneos*]" = arm64;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
+				"ARCHS[sdk=watchos*]" = arm64_32;
+				"ARCHS[sdk=watchsimulator*]" = arm64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -526,10 +548,6 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				"ARCHS[sdk=iphonesimulator*]" = arm64;
-				"ARCHS[sdk=watchsimulator*]" = arm64;
-				"ARCHS[sdk=iphoneos*]" = arm64;
-				"ARCHS[sdk=watchos*]" = arm64_32;
 			};
 			name = Release;
 		};

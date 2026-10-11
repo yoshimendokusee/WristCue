@@ -55,7 +55,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F494677CD7E2090C8E791C71"
             BuildableName = "VanguardWatch.app"
-            BlueprintName = "VanguardWatch"
             ReferencedContainer = "container:Vanguard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -72,7 +71,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F494677CD7E2090C8E791C71"
             BuildableName = "VanguardWatch.app"
-            BlueprintName = "VanguardWatch"
             ReferencedContainer = "container:Vanguard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

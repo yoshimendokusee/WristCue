@@ -1,0 +1,24 @@
+{
+  "duration": 25,
+  "assertions": [
+    {
+      "kind": "appearsBy",
+      "selector": "#hookline1",
+      "bySec": 0.8
+    },
+    {
+      "kind": "before",
+      "a": "#record-watch",
+      "b": "#transcript-watch"
+    },
+    {
+      "kind": "appearsBy",
+      "selector": "#endflow",
+      "bySec": 23
+    },
+    {
+      "kind": "staysInFrame",
+      "selector": "#endtitle"
+    }
+  ]
+}

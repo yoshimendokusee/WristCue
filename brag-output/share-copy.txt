@@ -1,0 +1,1 @@
+WristCue. Voice → Transcript → Triage. A watch-first prototype, built to save reports locally before transport.

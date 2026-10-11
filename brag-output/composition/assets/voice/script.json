@@ -1,0 +1,35 @@
+{
+  "provider": "ElevenLabs",
+  "voice_id": "Eop0L3nZtf3RK7phjoGF",
+  "model": "eleven_multilingual_v2",
+  "lines": [
+    [
+      "01-hook",
+      "When every moment matters."
+    ],
+    [
+      "02-voice",
+      "Put your voice to work."
+    ],
+    [
+      "03-brand",
+      "This is Wrist Cue."
+    ],
+    [
+      "04-capture",
+      "Capture a report. Review the transcript."
+    ],
+    [
+      "05-local",
+      "Local processing. Provisional triage. Saved on your watch."
+    ],
+    [
+      "06-board",
+      "From your wrist to the hospital board."
+    ],
+    [
+      "07-outro",
+      "Wrist Cue. Voice. Transcript. Triage."
+    ]
+  ]
+}

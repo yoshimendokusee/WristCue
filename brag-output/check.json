@@ -1,0 +1,473 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 8,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "duplicate_media_discovery_risk",
+        "severity": "warning",
+        "message": "Detected 3 matching img entries with the same source/start/duration.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Avoid duplicated media nodes that can be discovered twice during compilation."
+      },
+      {
+        "code": "negative_z_index",
+        "severity": "warning",
+        "message": "`z-index: -1` paints the element behind its nearest stacking context's own content. With no stacking-context ancestor that context is the composition root itself, so an opaque background there hides it entirely: in the DOM, laid out, and absent from the picture. A transparent root leaves it visible. Siblings at `z-index: 0` or above are unaffected.",
+        "selector": ".crown",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Give the element's parent a stacking context - `isolation: isolate` is the cheapest, and `transform`, `filter`, `opacity` below 1, `contain: paint` and `will-change` all work too. The negative-z child then paints above that parent's background and renders normally. Or express paint order through DOM order - an earlier sibling paints behind a later one - and raise the elements that should sit in front rather than lowering this one."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene-hook\"> is a timeline element that contains nested <div id=\"hook-inner\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-hook",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene-hook\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene-brand\"> is a timeline element that contains nested <div id=\"brand-inner\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-brand",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene-brand\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene-capture\"> is a timeline element that contains nested <div id=\"capture-inner\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-capture",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene-capture\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene-local\"> is a timeline element that contains nested <div id=\"local-inner\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-local",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene-local\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene-board\"> is a timeline element that contains nested <div id=\"board-inner\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-board",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene-board\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene-end\"> is a timeline element that contains nested <div id=\"end-inner\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene-end",
+        "dataAttributes": {},
+        "sourceFile": "/Users/baronjoya/Vanguard/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene-end\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 6,
+    "findings": [
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 3.375,
+        "selector": "#hookline1",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 150,
+          "top": 301,
+          "right": 867.63,
+          "bottom": 444,
+          "width": 717.63,
+          "height": 143
+        },
+        "containerSelector": "#brandlabel",
+        "text": "Every moment",
+        "fixHint": "Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 150,
+          "y": 301,
+          "width": 717.63,
+          "height": 143
+        },
+        "firstSeen": 3.375,
+        "lastSeen": 3.375,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          3.375
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 3.375,
+        "selector": "#hookline2",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 150,
+          "top": 415.23,
+          "right": 570.28,
+          "bottom": 558.23,
+          "width": 420.28,
+          "height": 143
+        },
+        "containerSelector": "#brandtitle",
+        "text": "matters.",
+        "fixHint": "Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 150,
+          "y": 415.23,
+          "width": 420.28,
+          "height": 143
+        },
+        "firstSeen": 3.375,
+        "lastSeen": 3.375,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          3.375
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 3.375,
+        "selector": "#hooksub",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 150,
+          "top": 577.47,
+          "right": 557.88,
+          "bottom": 622.47,
+          "width": 407.88,
+          "height": 45
+        },
+        "containerSelector": "#brandsub",
+        "text": "A voice report starts here.",
+        "fixHint": "Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 150,
+          "y": 577.47,
+          "width": 407.88,
+          "height": 45
+        },
+        "firstSeen": 3.375,
+        "lastSeen": 3.375,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          3.375
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 6.125,
+        "selector": "#brandlabel",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 150,
+          "top": 351,
+          "right": 433.09,
+          "bottom": 387,
+          "width": 283.09,
+          "height": 36
+        },
+        "containerSelector": "#capturetitle > div:nth-of-type(1)",
+        "text": "VOICE INTO VIEW",
+        "fixHint": "Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 150,
+          "y": 351,
+          "width": 283.09,
+          "height": 36
+        },
+        "firstSeen": 6.125,
+        "lastSeen": 6.125,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          6.125
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 6.125,
+        "selector": "#brandtitle",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 150,
+          "top": 367,
+          "right": 846.23,
+          "bottom": 580,
+          "width": 696.23,
+          "height": 213
+        },
+        "containerSelector": "#capturetitle > div:nth-of-type(2)",
+        "text": "WristCue",
+        "fixHint": "Give each block its own zone, or mark intentional layering with data-layout-allow-overlap.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 150,
+          "y": 367,
+          "width": 696.23,
+          "height": 213
+        },
+        "firstSeen": 6.125,
+        "lastSeen": 6.125,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          6.125
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 20.833,
+        "selector": "#boardframe > img:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 297.59,
+          "top": 326.02,
+          "right": 1626.44,
+          "bottom": 1073.5,
+          "width": 1328.84,
+          "height": 747.47
+        },
+        "containerSelector": "#boardframe",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 295.58,
+          "top": 324.01,
+          "right": 1624.42,
+          "bottom": 921.99,
+          "width": 1328.84,
+          "height": 597.98
+        },
+        "overflow": {
+          "right": 2.02,
+          "bottom": 151.51
+        },
+        "dataAttributes": {
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 297.59,
+          "y": 326.02,
+          "width": 1328.84,
+          "height": 747.47
+        },
+        "firstSeen": 20.833,
+        "lastSeen": 20.833,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          20.833
+        ]
+      }
+    ],
+    "duration": 25,
+    "samples": [
+      1.389,
+      4.167,
+      6.944,
+      9.722,
+      12.5,
+      15.278,
+      18.056,
+      20.833,
+      23.611
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 6,
+    "truncated": false
+  },
+  "motion": {
+    "ok": false,
+    "errorCount": 1,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "motion_out_of_order",
+        "severity": "error",
+        "time": 6.187,
+        "selector": "#record-watch",
+        "message": "#record-watch should appear before #transcript-watch, but #record-watch appears at 6.19s and #transcript-watch at 6.1s — reorder the entrances",
+        "rect": {
+          "left": 1063.25,
+          "top": 256.51,
+          "right": 1511.78,
+          "bottom": 799.49,
+          "width": 448.52,
+          "height": 542.97
+        },
+        "fixHint": "Make #record-watch's entrance land before #transcript-watch's on the timeline.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1063.25,
+          "y": 256.51,
+          "width": 448.52,
+          "height": 542.97
+        },
+        "firstSeen": 6.187,
+        "lastSeen": 6.187,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          6.187
+        ]
+      }
+    ],
+    "enabled": true,
+    "specPath": "/Users/baronjoya/Vanguard/brag-output/composition/index.motion.json",
+    "samples": 300
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.389,
+      6.944,
+      12.5,
+      18.056,
+      23.611
+    ],
+    "checked": 35,
+    "passed": 35
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": true,
+    "files": [
+      "snapshots/frame-00-at-1.4s.png",
+      "snapshots/frame-01-at-6.9s.png",
+      "snapshots/frame-02-at-12.5s.png",
+      "snapshots/frame-03-at-18.1s.png",
+      "snapshots/frame-04-at-23.6s.png"
+    ],
+    "times": [
+      1.389,
+      6.944,
+      12.5,
+      18.056,
+      23.611
+    ],
+    "findingFiles": [
+      "snapshots/finding-00-motion_out_of_order.png"
+    ]
+  },
+  "_meta": {
+    "version": "0.8.145",
+    "latestVersion": "0.8.145",
+    "updateAvailable": false
+  }
+}
